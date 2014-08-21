@@ -1,6 +1,18 @@
 html
   head
+    script.
+      var __user = !{JSON.stringify(user)};
 
-  body
+  body(ng-app="dualtd")
+
     | !{cachify_js('/js/dualtd.min.js')}
-    | Hello
+
+    dtd-login
+    dtd-game
+
+    script#login-tpl(type="text/ng-template")
+      include templates/login
+
+    script#game-tpl(type="text/ng-template")
+      include templates/game
+

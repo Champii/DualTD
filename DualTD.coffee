@@ -11,22 +11,13 @@ Routes = require './server/routes'
 
 app = Modulator.app
 
-
 MakeAssetsList = ->
-  readDir = (folder) ->
-    basePath = path.resolve(dualRoot, 'public/' + folder)
-    paths = _(fs.readdirSync(basePath)).map (item) -> '/' + folder + '/' + item
-    _(paths).map (item) ->
-      splited = item.split '.'
-      if splited[1] is 'coffee'
-        splited[1] = 'js'
-      splited.join '.'
-
   assets = {}
 
-  assets['/js/dualtd.min.js'] = readDir('js')
-                                      .concat readDir('coffee')
+  assetsCoffee = require './settings/assets.json'
+  assetsLib = require './settings/assets-lib.json'
 
+  assets['/js/dualtd.min.js'] = assetsLib.concat assetsCoffee
   assets
 
 dualRoot = path.resolve __dirname, '.'

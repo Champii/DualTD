@@ -1,0 +1,19 @@
+div(ng-if="!userService.current")
+  div
+    input(type="text", ng-model="cred.login", placeholder="Login")
+  div
+    input(type="pass", ng-model="cred.password", placeholder="Password")
+  div(ng-show="!signup")
+    button(ng-click="login()") Login
+    a(ng-click="toggleSignup()") Signup
+
+  div(ng-show="signup")
+    div
+      input(type="pass", ng-model="cred.password2", placeholder="Password Again")
+    div
+      input(type="email", ng-model="cred.email", placeholder="Email")
+    div
+      button(ng-click="doSignup()") Signup
+      a(ng-click="toggleSignup()") Login
+  div
+    | {{message}}
