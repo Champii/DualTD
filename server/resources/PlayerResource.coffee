@@ -1,3 +1,5 @@
+bus = require '../bus'
+
 Modulator = require '../../Modulator/Modulator'
 
 APlayer = Modulator.Resource 'player',
@@ -5,6 +7,12 @@ APlayer = Modulator.Resource 'player',
     fields:
       usernameField: 'login',
       passwordField: 'password'
+    loginCallback: (player, done) ->
+      bus.emit 'playerEnterLobby', player
+      done()
+    logoutCallback: (player, done) ->
+      bus.emit 'playerLeaveLobby', player
+      done()
   restrict: 'user'
 
 class PlayerResource extends APlayer

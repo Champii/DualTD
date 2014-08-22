@@ -1,14 +1,17 @@
 dualtd.service 'userService', [
   '$http'
   '$window'
-  ($http, $window) ->
+  'socket'
+  ($http, $window, socket) ->
 
     @current = null
 
     if __user.id?
       @current = __user
 
-    console.log 'Current = ', @current
+    socket.on 'playerId', =>
+      if @current? and @current.id
+        socket.emit 'playerId', @current.id
 
     @logout = ->
       $http.post('/api/1/players/logout')

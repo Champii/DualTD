@@ -2,5 +2,7 @@
   "/coffee/index.js",
   "/coffee/user.js",
   "/coffee/login.js",
-  "/coffee/game.js"
+  "/coffee/game.js",
+  "/coffee/lobby.js",
+  "/coffee/socket.js"
 ]

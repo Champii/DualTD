@@ -1,0 +1,10 @@
+div
+  | Lobby
+  button(ng-click="userService.logout()") Logout
+  button(ng-click="randomGame()") RandomGame
+  div(ng-repeat="user in lobbyService.list")
+    b | Id:
+    | {{user.id}}
+    b | Login:
+    | {{user.login}}
+

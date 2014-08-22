@@ -8,6 +8,7 @@ Modulator = require './Modulator/Modulator'
 
 Resources = require './server/resources'
 Routes = require './server/routes'
+Socket = require './server/socket/socket'
 
 app = Modulator.app
 
@@ -42,3 +43,5 @@ app.set 'view engine', 'jade'
 Resources.mount()
 
 Routes.mount app
+
+Socket.init Modulator.server
