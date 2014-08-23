@@ -22,8 +22,8 @@ class Map
       for j in [0..@map.size.y]
         @map.tiles[i][j] = null
 
-    @map.tiles[5][10] = new MainTower players[0].id
-    @map.tiles[35][10] = new MainTower players[1].id
+    @map.tiles[5][10] = new MainTower {x: 5, y: 10}, players[0].id
+    @map.tiles[35][10] = new MainTower {x: 35, y: 10}, players[1].id
 
     bus.emit 'sendToAll', 'map', @map
 

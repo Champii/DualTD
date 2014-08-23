@@ -2,5 +2,7 @@
   "/js/angular.js",
   "/js/angular-route.js",
   "/js/underscore.js",
-  "/js/kinetic.js"
+  "/js/kinetic.js",
+  "/js/jquery-1.8.2.min.js",
+  "/js/contextMenu/jquery.contextMenu.js"
 ]

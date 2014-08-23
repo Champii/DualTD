@@ -7,5 +7,10 @@
   "/coffee/lobby.js",
   "/coffee/room.js",
   "/coffee/game.js",
-  "/coffee/game/main.js"
+  "/coffee/game/main.js",
+  "/coffee/game/Game.js",
+  "/coffee/game/Map.js",
+  "/coffee/game/ContextMenu.js",
+  "/coffee/game/Tower/ATower.js",
+  "/coffee/game/Tower/MainTower.js"
 ]
