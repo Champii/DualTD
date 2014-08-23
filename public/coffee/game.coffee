@@ -16,9 +16,10 @@ dualtd.service 'gameService', [
 
 dualtd.directive 'dtdGame', [
   '$http'
+  'socket'
   'gameService'
   'userService'
-  ($http, gameService, userService) ->
+  ($http, socket, gameService, userService) ->
     return {
 
       restrict: 'E'
@@ -32,17 +33,7 @@ dualtd.directive 'dtdGame', [
         scope.userService = userService
         scope.gameService = gameService
 
-        scope.message = ''
-        scope.waiting = false
-
-        scope.start = ->
-          $http.post('/api/1/rooms/' + scope.gameService.current.id + '/start')
-            .success ->
-              scope.waiting = true
-              scope.message = 'Waiting for other player'
-
-
-        scope.leave = ->
+        StartGame socket.socket
 
     }
 ]

@@ -6,5 +6,6 @@
   "/coffee/app.js",
   "/coffee/lobby.js",
   "/coffee/room.js",
-  "/coffee/game.js"
+  "/coffee/game.js",
+  "/coffee/game/main.js"
 ]

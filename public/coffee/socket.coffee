@@ -19,5 +19,7 @@ dualtd.factory 'socket', ['$rootScope', ($rootScope) ->
         $rootScope.$apply ->
           if callback
             callback.apply socket, args
+
+    socket: socket
   }
 ]

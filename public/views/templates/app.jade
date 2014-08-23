@@ -1,5 +1,4 @@
 div(ng-if="userService.current")
-  | App
   dtd-lobby(ng-if="!roomService.inRoom")
   dtd-room(ng-if="roomService.inRoom && !gameService.inGame")
   dtd-game(ng-if="roomService.inRoom && gameService.inGame")
