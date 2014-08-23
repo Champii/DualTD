@@ -11,7 +11,7 @@ exports.init = (server) ->
   io.sockets.on 'connection', (socket) ->
 
     socket.once 'playerId', (playerId) ->
-      sockets[playerId] = socket
+      sockets[playerId - 1] = socket
       socket.join 'player-' + playerId
       socket.join 'lobby'
 
@@ -31,11 +31,19 @@ exports.init = (server) ->
     io.sockets.in('lobby').emit type, message, arg1, arg2
 
   emitRoom = (roomId, type, message, arg1, arg2) ->
-    io.sockets.in('room-', roomId).emit type, message, arg1, arg2
+    io.sockets.in('room-' + roomId).emit type, message, arg1, arg2
 
   bus.on 'playerEnterLobby', (player) ->
     emitLobby 'playerEnterLobby', player
 
   bus.on 'playerLeaveLobby', (player) ->
     emitLobby 'playerLeaveLobby', player
+
+  bus.on 'playersEnterRoom', (room, players) ->
+    addToRoom room, sockets[players[0].id - 1]
+    addToRoom room, sockets[players[1].id - 1]
+    emitRoom room.id, 'playersEnterRoom', room, players
+
+  bus.on 'startGame', (room) ->
+    emitRoom room.id, 'startGame'
 

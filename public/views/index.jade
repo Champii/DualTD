@@ -8,15 +8,21 @@ html
     | !{cachify_js('/js/dualtd.min.js')}
 
     dtd-login
-    dtd-game
+    dtd-app
 
     script#login-tpl(type="text/ng-template")
       include templates/login
 
-    script#game-tpl(type="text/ng-template")
-      include templates/game
+    script#app-tpl(type="text/ng-template")
+      include templates/app
 
     script#lobby-tpl(type="text/ng-template")
       include templates/lobby
+
+    script#room-tpl(type="text/ng-template")
+      include templates/room
+
+    script#game-tpl(type="text/ng-template")
+      include templates/game
 
     script(src="/socket.io/socket.io.js")

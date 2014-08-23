@@ -1,6 +1,8 @@
 _ = require 'underscore'
 async = require 'async'
 
+bus = require '../bus'
+
 Modulator = require '../../Modulator/Modulator'
 
 PlayerResource = require './PlayerResource'
@@ -18,6 +20,16 @@ class RoomResource extends ARoom
       return done err if err?
 
       done null, new RoomResource blob, players
+
+RoomResource.Route 'post', '/:id/start', (req, res) ->
+  req.room._ready = 0 if not req.room._ready?
+  req.room._ready++
+  req.room.Save ->
+
+    if req.room._ready == 2
+      bus.emit 'startGame', req.room
+
+    res.send 200
 
 ARoom.ExtendedBy RoomResource
 

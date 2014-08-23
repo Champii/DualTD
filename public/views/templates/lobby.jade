@@ -1,7 +1,9 @@
 div
   | Lobby
   button(ng-click="userService.logout()") Logout
-  button(ng-click="randomGame()") RandomGame
+  button(ng-click="randomGame()" ng-disabled="waiting") RandomGame
+  div
+    | {{message}}
   div(ng-repeat="user in lobbyService.list")
     b | Id:
     | {{user.id}}

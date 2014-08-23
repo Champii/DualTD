@@ -39,10 +39,19 @@ dualtd.directive 'dtdLobby', [
         scope.userService = userService
         scope.lobbyService = lobbyService
 
+        scope.message = ''
+        scope.waiting = false
+
         scope.lobbyService.Fetch()
 
         scope.randomGame = ->
-          # $http.
+          $http.post('/api/1/lobbys/random')
+            .success ->
+              scope.message = 'Waiting for player...'
+              scope.waiting = true
+            .error (data) ->
+              scope.message = 'Error: ' + data
+
 
     }
 ]

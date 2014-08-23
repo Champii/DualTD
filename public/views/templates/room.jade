@@ -1,0 +1,11 @@
+div
+  | Room
+  button(ng-click="start()", ng-disabled="waiting") Start
+  button(ng-click="leave()") Leave Room
+  div
+    | {{message}}
+  div(ng-repeat="player in roomService.list")
+    b | Id:
+    | {{player.id}}
+    b | Login:
+    | {{player.login}}
