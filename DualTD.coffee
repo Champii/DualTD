@@ -4,7 +4,7 @@ fs = require 'fs'
 path = require 'path'
 coffeeMiddleware = require 'coffee-middleware'
 
-Modulator = require './Modulator/Modulator'
+Modulator = require './Modulator/lib/Modulator'
 
 Resources = require './server/resources'
 Routes = require './server/routes'

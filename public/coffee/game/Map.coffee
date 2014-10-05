@@ -19,7 +19,7 @@ class Map
             floorShape.on 'mousedown', (e) =>
               if e.button == 2
                 e.cancelBubble = true
-                # @ShowContextMenu()
+                @ShowContextMenu()
 
             @mainContainer.add floorShape
 

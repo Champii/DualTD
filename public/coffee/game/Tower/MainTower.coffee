@@ -16,6 +16,12 @@ class MainTower extends ATower
       if e.button == 2
         e.cancelBubble = true
         console.log @
-        # @ShowContextMenu()
+        @ShowContextMenu()
 
     @mainContainer.add towerShape
+
+    @menu =
+      levelup:
+        name: "LevelUp"
+        callback: (key, options) ->
+          #FIXME: send REST request

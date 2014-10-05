@@ -1,6 +1,6 @@
 bus = require '../bus'
 
-Modulator = require '../../Modulator/Modulator'
+Modulator = require '../../Modulator/lib/Modulator'
 
 APlayer = Modulator.Resource 'player',
   account:

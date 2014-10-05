@@ -3,7 +3,7 @@ async = require 'async'
 
 bus = require '../bus'
 
-Modulator = require '../../Modulator/Modulator'
+Modulator = require '../../Modulator/lib/Modulator'
 
 PlayerResource = require './PlayerResource'
 
@@ -29,7 +29,7 @@ RoomResource.Route 'post', '/:id/start', (req, res) ->
     if req.room._ready == 2
       bus.emit 'startGame', req.room
 
-    res.send 200
+    res.status(200).end()
 
 ARoom.ExtendedBy RoomResource
 

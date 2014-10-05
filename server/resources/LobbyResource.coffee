@@ -3,7 +3,7 @@ async = require 'async'
 
 bus = require '../bus'
 
-Modulator = require '../../Modulator/Modulator'
+Modulator = require '../../Modulator/lib/Modulator'
 
 ALobby = Modulator.Resource 'lobby',
   empty: true
@@ -46,13 +46,13 @@ bus.on 'playerLeaveLobby', (player) ->
 
 LobbyResource.Route 'get', '', (req, res) ->
   async.map players, PlayerResource.Fetch, (err, players) ->
-    return res.send 500 if err?
+    return res.status(500).end() if err?
 
-    res.send 200, _(players).invoke 'ToJSON'
+    res.status(200).send _(players).invoke 'ToJSON'
 
 LobbyResource.Route 'post', '/random', (req, res) ->
   LobbyResource.SwitchToWaitingRoom req.user.id
-  res.send 200
+  res.status(200).end()
 
 ALobby.ExtendedBy LobbyResource
 
