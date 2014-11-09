@@ -2,7 +2,7 @@ bus = require '../bus'
 
 Modulator = require '../../Modulator/lib/Modulator'
 
-APlayer = Modulator.Resource 'player',
+config =
   account:
     fields:
       usernameField: 'login',
@@ -15,8 +15,8 @@ APlayer = Modulator.Resource 'player',
       done()
   restrict: 'user'
 
-class PlayerResource extends APlayer
+class PlayerResource extends Modulator.Resource 'player', Modulator.Route.DefaultRoute, config
 
-APlayer.ExtendedBy PlayerResource
+PlayerResource.Init()
 
 module.exports = PlayerResource

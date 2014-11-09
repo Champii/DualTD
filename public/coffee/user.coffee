@@ -11,6 +11,7 @@ dualtd.service 'userService', [
 
     socket.on 'playerId', =>
       if @current? and @current.id
+        console.log 'PlayerId', @current
         socket.emit 'playerId', @current.id
 
     @logout = ->

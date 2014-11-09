@@ -4,8 +4,9 @@ socket = require 'socket.io'
 bus = require '../bus'
 game = require '../game/main'
 
-sockets = []
+RoomResource = require '../resources/RoomResource'
 
+sockets = []
 exports.init = (server) ->
   io = socket.listen server, log: false
 
@@ -14,7 +15,13 @@ exports.init = (server) ->
     socket.once 'playerId', (playerId) ->
       sockets[playerId - 1] = socket
       socket.join 'player-' + playerId
-      socket.join 'lobby'
+
+      if sockets.length is 2
+        RoomResource.Fetch 1, (err, room) ->
+          return console.error err if err?
+          bus.emit 'playersEnterRoom', room, room.players
+
+      # socket.join 'lobby'
 
     socket.emit 'playerId'
 
@@ -41,9 +48,10 @@ exports.init = (server) ->
     emitLobby 'playerLeaveLobby', player
 
   bus.on 'playersEnterRoom', (room, players) ->
+    console.log 'EnterRoom', room, players
     addToRoom room, sockets[players[0].id - 1]
     addToRoom room, sockets[players[1].id - 1]
-    emitRoom room.id, 'playersEnterRoom', room, players
+    # emitRoom room.id, 'playersEnterRoom', room, players
 
   bus.on 'startGame', (room) ->
     emitRoom room.id, 'startGame'
