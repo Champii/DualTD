@@ -11,4 +11,4 @@ class Game
     @stage.add @mainContainer
 
     @map = new Map @mainContainer, @socket
-    @income = new Income @socket
+    @bank = new Bank @socket

@@ -1,6 +1,8 @@
 bus = require '../bus'
 
 Modulator = require '../../Modulator/lib/Modulator'
+Bank = require '../game/Bank'
+prices = require '../game/prices'
 
 config =
   account:
@@ -15,7 +17,39 @@ config =
       done()
   restrict: 'user'
 
+sockets = []
+banks = []
 class PlayerResource extends Modulator.Resource 'player', Modulator.Route.DefaultRoute, config
+
+  Save: (done) ->
+    isNew = not @id?
+
+    super (err, instance) =>
+      return done err if err?
+
+      if @socket? and not sockets[@id]?
+        sockets[@id] = @socket
+      if @bank? and not banks[@id]?
+        banks[@id] = @bank
+
+      done null, instance
+
+  Send: ->
+    args = arguments
+    args = Array.prototype.slice.call args, arguments
+    @socket.emit.apply @socket, args
+
+  TryBuy: (tower, done)->
+    @bank.Buy prices[tower.name], done
+
+  @Deserialize: (blob, done) ->
+    if blob.id? and sockets[blob.id]?
+      blob.socket = sockets[blob.id]
+    if blob.id? and banks[blob.id]?
+      blob.bank = banks[blob.id]
+
+    super blob, done
+
 
 PlayerResource.Init()
 

@@ -9,11 +9,10 @@ class Map
         items:
           spawnTower:
             name: "Spawn Tower"
-            # callback: (key, opt) -> contextMenu.CallBack key, opt
             callback: (key, opt) =>
             # done: (key, obj, c) =>
               # @map.tiles
-              RestClient.Post '/api/1/towers',
+              RestClient.Post '/api/1/spawnTowers',
                 name: key
                 pos: opt.pos
                 roomId: roomId
@@ -45,20 +44,22 @@ class Map
 
             @mainContainer.add floorShape
 
-          else if @map.tiles[i][j].name is 'mainTower'
-            @map.tiles[i][j] = new MainTower @mainContainer, @map.tiles[i][j]
+          # else if @map.tiles[i][j].name is 'mainTower'
+          #   @map.tiles[i][j] = new MainTower @mainContainer, @map.tiles[i][j]
 
       @mainContainer.draw()
 
     @socket.on 'newTower', (tower) =>
-      tower.pos =
-        x: parseInt tower.pos.x
-        y: parseInt tower.pos.y
+      # tower.pos =
+      #   x: parseInt tower.pos.x
+      #   y: parseInt tower.pos.y
 
+      toBuild = null
       switch tower.name
-        when 'spawnTower'
-          @map.tiles[tower.pos.x][tower.pos.y] = new SpawnTower @mainContainer, tower
+        when 'spawnTower' then toBuild = SpawnTower
+        when 'mainTower' then toBuild = MainTower
 
+      @map.tiles[tower.pos.x][tower.pos.y] = new toBuild @mainContainer, tower
 
   GetTileColor: (tile) ->
     if tile is null
