@@ -19,20 +19,40 @@ class UnitResource extends Modulator.Resource 'unit'
       bus.emit 'sendToAll', 'unit' + @id, @Serialize()
       done null, instance
 
+  _MakePath: ->
+
+
+  _NextPos: ->
+    console.log @mainTargetPos, @pos, @a, Math.abs @a
+    pos =
+      x: @pos.x + @speed
+      y: @pos.y + (@a * @speed)
+
+  _FindTarget: ->
+
+  _Attack: ->
+
   Start: ->
-    @_unitTimer = setInterval =>
-      @pos =
-        x: @pos.x + @speed
-        y: @pos.y + @speed
+    @a = (@mainTargetPos.y - @towerPos.y) / (@mainTargetPos.x - @towerPos.x)
+    @_moveTimer = setInterval =>
+      @pos = @_NextPos()
+        # x: @pos.x + @speed
+        # y: @pos.y + @speed
       @Save =>
         console.log 'posChange', @pos
 
     , 1000
 
   @Spawn: (blob) ->
+    console.log blob
+    # FIXME
     blob.pos =
       x: parseInt blob.pos.x
       y: parseInt blob.pos.y
+    blob.mainTargetPos =
+      x: parseInt blob.mainTargetPos.x
+      y: parseInt blob.mainTargetPos.y
+
     @Deserialize blob, (err, unit) ->
       return console.error err if err?
 

@@ -38,8 +38,8 @@ class Map
     , (err, results) =>
       return console.error err if err?
 
-      @map.tiles[5][10] = results.oneSave
-      @map.tiles[35][10] = results.twoSave
+      @map.tiles[5][10] = @['mainTarget' + players[1].id] = results.oneSave
+      @map.tiles[35][10] = @['mainTarget' + players[0].id] = results.twoSave
 
 
     # On newTower event
@@ -48,6 +48,7 @@ class Map
       switch tower.name
         when 'spawnTower' then toBuild = SpawnTowerResource
 
+      tower.mainTargetPos = @['mainTarget' + tower.userId].pos
       toBuild.Deserialize tower, (err, tower) =>
         return console.error err if err?
 
