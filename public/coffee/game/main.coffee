@@ -1,6 +1,9 @@
+roomId = 0
+game = null
 
+StartGame = (room, socket) ->
 
-StartGame = (socket) ->
+  roomId = room
 
   document.oncontextmenu = -> false
 

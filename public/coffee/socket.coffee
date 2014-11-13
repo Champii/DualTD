@@ -1,5 +1,7 @@
 dualtd.factory 'socket', ['$rootScope', ($rootScope) ->
-  socket = io.connect()
+  socket = io.connect
+    reconnection: false
+
 
   return {
     on: (eventName, callback) ->

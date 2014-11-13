@@ -6,11 +6,15 @@
   "/coffee/app.js",
   "/coffee/lobby.js",
   "/coffee/room.js",
+  "/coffee/bank.js",
   "/coffee/game.js",
   "/coffee/game/main.js",
   "/coffee/game/Game.js",
   "/coffee/game/Map.js",
+  "/coffee/game/Bank.js",
+  "/coffee/game/RestClient.js",
   "/coffee/game/ContextMenu.js",
   "/coffee/game/Tower/ATower.js",
-  "/coffee/game/Tower/MainTower.js"
+  "/coffee/game/Tower/MainTower.js",
+  "/coffee/game/Tower/SpawnTower/SpawnTower.js"
 ]

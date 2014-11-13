@@ -19,7 +19,8 @@ dualtd.directive 'dtdGame', [
   'socket'
   'gameService'
   'userService'
-  ($http, socket, gameService, userService) ->
+  'roomService'
+  ($http, socket, gameService, userService, roomService) ->
     return {
 
       restrict: 'E'
@@ -33,7 +34,7 @@ dualtd.directive 'dtdGame', [
         scope.userService = userService
         scope.gameService = gameService
 
-        StartGame socket.socket
+        StartGame roomService.current.id, socket.socket
 
     }
 ]

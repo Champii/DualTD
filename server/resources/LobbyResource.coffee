@@ -5,17 +5,27 @@ bus = require '../bus'
 
 Modulator = require '../../Modulator/lib/Modulator'
 
-ALobby = Modulator.Resource 'lobby',
-  empty: true
-  restrict: 'auth'
-
 PlayerResource = require './PlayerResource'
 RoomResource = require './RoomResource'
 
 players = []
 waitingRoom = []
 
-class LobbyResource extends ALobby
+class LobbyRoute extends Modulator.Route.DefaultRoute
+  Config: ->
+    super()
+
+    @Add 'get', (req, res) ->
+      async.map players, PlayerResource.Fetch, (err, players) ->
+        return res.status(500).end() if err?
+
+        res.status(200).send _(players).invoke 'ToJSON'
+
+    @Add 'post', '/random', (req, res) ->
+      LobbyResource.SwitchToWaitingRoom req.user.id
+      res.status(200).end()
+
+class LobbyResource extends Modulator.Resource 'lobby', LobbyRoute, {restrict: 'auth'}
 
   @AddPlayer: (playerId) -> players.push playerId
   @DelPlayer: (playerId) -> players = _(players).reject (item) -> item is playerId
@@ -44,16 +54,6 @@ bus.on 'playerEnterLobby', (player) ->
 bus.on 'playerLeaveLobby', (player) ->
   LobbyResource.DelPlayer player.id
 
-LobbyResource.Route 'get', '', (req, res) ->
-  async.map players, PlayerResource.Fetch, (err, players) ->
-    return res.status(500).end() if err?
-
-    res.status(200).send _(players).invoke 'ToJSON'
-
-LobbyResource.Route 'post', '/random', (req, res) ->
-  LobbyResource.SwitchToWaitingRoom req.user.id
-  res.status(200).end()
-
-ALobby.ExtendedBy LobbyResource
+LobbyResource.Init()
 
 module.exports = LobbyResource

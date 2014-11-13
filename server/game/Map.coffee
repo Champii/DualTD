@@ -1,6 +1,10 @@
+async = require 'async'
+util = require 'util'
+
 bus = require '../bus'
 
-MainTower = require './Tower/MainTower'
+MainTowerResource = require '../resources/MainTowerResource'
+SpawnTowerResource = require '../resources/SpawnTowerResource'
 
 ###
 
@@ -16,15 +20,57 @@ class Map
 
   constructor: (players) ->
 
+    # Create map
     @map = size: {x: 40, y: 20}, tiles: []
     for i in [0..@map.size.x]
       @map.tiles[i] = []
       for j in [0..@map.size.y]
         @map.tiles[i][j] = null
 
-    @map.tiles[5][10] = new MainTower {x: 5, y: 10}, players[0].id
-    @map.tiles[35][10] = new MainTower {x: 35, y: 10}, players[1].id
+    bus.emit 'sendToAll', 'map', @ToJSON()
 
-    bus.emit 'sendToAll', 'map', @map
+    # Create 2 MainTower
+    async.auto
+      oneCreate:                 (done)          -> MainTowerResource.Deserialize {pos: {x: 2, y: 10}, userId: players[0].id}, done
+      oneSave:    ['oneCreate',  (done, results) -> results.oneCreate.Save done]
+      twoCreate:                 (done)          -> MainTowerResource.Deserialize {pos: {x: 38, y: 10}, userId: players[1].id}, done
+      twoSave:    ['twoCreate',  (done, results) -> results.twoCreate.Save done]
+    , (err, results) =>
+      return console.error err if err?
+
+      @map.tiles[5][10] = results.oneSave
+      @map.tiles[35][10] = results.twoSave
+
+
+    # On newTower event
+    bus.on 'newTower', (tower) =>
+      toBuild = null
+      switch tower.name
+        when 'spawnTower' then toBuild = SpawnTowerResource
+
+      toBuild.Deserialize tower, (err, tower) =>
+        return console.error err if err?
+
+        tower.Save (err) =>
+          return console.error err if err?
+
+          @map.tiles[tower.pos.x][tower.pos.y] = tower
+
+
+  ToJSON: ->
+    size: @map.size
+    tiles: @_arrayToJSON @map.tiles
+
+  _arrayToJSON: (array) ->
+    res = []
+    for v, k in array
+      for v2, k2 in v
+        res[k] = [] if not res[k]?
+
+        if v2? and v2.ToJSON?
+          res[k][k2] = v2.ToJSON()
+        else
+          res[k][k2] = null
+    res
 
 module.exports = Map

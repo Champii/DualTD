@@ -19,6 +19,15 @@ dualtd.service 'roomService', [
       if player.id is userService.current.id
         @inRoom = false
 
+    # TEMP TEST
+    # $http.get('/api/1/rooms/1')
+    #   .success (data) =>
+    #     console.log 'lol', data
+    #     @current = data
+    #     @list = data.players
+
+    @current = {id: 1}
+
     @
 ]
 
@@ -49,8 +58,12 @@ dualtd.directive 'dtdRoom', [
               scope.waiting = true
               scope.message = 'Waiting for other player'
 
-
         scope.leave = ->
+
+        setTimeout ->
+          scope.$apply ->
+            scope.start()
+        , 1000
 
     }
 ]
