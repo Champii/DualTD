@@ -10,6 +10,8 @@ exports.mount = (app) ->
   app.get '*', (req, res) ->
 
     req.userId = id++ if not req.userId?
+    if id is 3
+      id = 1
 
     res.render 'index',
       user: {id: req.userId}

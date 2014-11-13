@@ -2,8 +2,9 @@ ATower = require './ATower'
 
 class MainTower extends ATower
 
-  constructor: (@position, @playerId) ->
+  constructor: (@pos, @player) ->
     super 100
-    @name = 'MainTower'
+    @name = 'mainTower'
+
 
 module.exports = MainTower

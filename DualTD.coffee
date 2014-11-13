@@ -16,8 +16,10 @@ MakeAssetsList = ->
 
   assetsCoffee = require './settings/assets.json'
   assetsLib = require './settings/assets-lib.json'
+  assetsCss = require './settings/assets-css.json'
 
   assets['/js/dualtd.min.js'] = assetsLib.concat assetsCoffee
+  assets['/css/dualtd.min.css'] = assetsCss
   assets
 
 dualRoot = path.resolve __dirname, '.'

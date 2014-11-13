@@ -14,10 +14,12 @@ class Game
       new Player room.players[1]
     ]
 
-    bus.on 'sendToAll', (type, message, arg1, arg2) =>
-      _(@players).each (player) -> player.Send type, message, arg1, arg2
+    bus.on 'sendToAll', () =>
+      args = arguments
+      args = Array.prototype.slice.call args, arguments
+      _(@players).each (player) ->
+        player.Send.apply player, args
 
     @map = new Map @players
-
 
 module.exports = Game

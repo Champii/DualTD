@@ -1,7 +1,9 @@
 html
   head
+    | !{cachify_css('/css/dualtd.min.css')}
     script.
       var __user = !{JSON.stringify(user)};
+
 
   body(ng-app="dualtd")
 
@@ -24,5 +26,8 @@ html
 
     script#game-tpl(type="text/ng-template")
       include templates/game
+
+    script#income-tpl(type="text/ng-template")
+      include templates/income
 
     script(src="/socket.io/socket.io.js")

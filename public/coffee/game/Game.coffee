@@ -5,9 +5,10 @@ class Game
       container: 'game'
       width: document.body.scrollWidth
       height: document.body.scrollHeight
-      draggable: true
+      # draggable: true
 
     @mainContainer = new Kinetic.Layer()
     @stage.add @mainContainer
 
     @map = new Map @mainContainer, @socket
+    @income = new Income @socket

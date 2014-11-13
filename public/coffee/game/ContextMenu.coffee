@@ -2,23 +2,22 @@ class ContextMenu
 
   constructor: ->
 
-  Show: (menu) ->
-
-    callback = (key, options) =>
-      @Hide()
+  Show: (menu, pos) ->
+    $.contextMenu( 'destroy' )
 
     cMenu =
+      pos: pos
       selector: '#game'
-      events:
-        show: =>
-          stage.setDraggable false
-        hide: =>
-          stage.setDraggable true
+      # events:
+        # show: =>
+        #   stage.setDraggable false
+        # hide: =>
+        #   stage.setDraggable true
       items:
         actions:
           name: "<p>Actions Menu</p>"
           disabled: true
-        separator: "--------"
+          separator: "--------"
 
     _(cMenu.items).extend menu
 
@@ -73,6 +72,7 @@ class ContextMenu
         #       "callback": callback
 
   Hide: ->
+    console.log 'HIDE'
     $.contextMenu( 'destroy' )
 
 contextMenu = new ContextMenu

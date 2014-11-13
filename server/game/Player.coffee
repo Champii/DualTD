@@ -1,12 +1,16 @@
+Income = require './Income'
+
 class Player
 
   constructor: (player) ->
     @id = player.id
     @login = player.login
     @socket = player.socket
-    @gold = 20
+    @income = new Income @socket
 
-  Send: (type, message, arg1, arg2) ->
-    @socket.emit type, message, arg1, arg2
+  Send: () ->
+    args = arguments
+    args = Array.prototype.slice.call args, arguments
+    @socket.emit.apply @socket, args
 
 module.exports = Player
