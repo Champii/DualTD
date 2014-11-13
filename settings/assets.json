@@ -12,6 +12,7 @@
   "/coffee/game/Game.js",
   "/coffee/game/Map.js",
   "/coffee/game/Bank.js",
+  "/coffee/game/Unit.js",
   "/coffee/game/RestClient.js",
   "/coffee/game/ContextMenu.js",
   "/coffee/game/Tower/ATower.js",

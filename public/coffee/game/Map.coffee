@@ -2,6 +2,7 @@ class Map
 
   constructor: (@mainContainer, @socket) ->
     @tileSize = 20
+    @units = []
 
     @cMenu =
       towers:
@@ -10,7 +11,6 @@ class Map
           spawnTower:
             name: "Spawn Tower"
             callback: (key, opt) =>
-            # done: (key, obj, c) =>
               # @map.tiles
               RestClient.Post '/api/1/spawnTowers',
                 name: key
@@ -18,9 +18,7 @@ class Map
                 roomId: roomId
                 userId: __user.id
               , (data) ->
-                console.log 'Got : ', data
 
-              console.log 'base tower callback', key, opt
 
     @socket.on 'map', (@map) =>
       for i in [0..@map.size.x]
@@ -36,30 +34,26 @@ class Map
               lineWidth: 1
 
             floorShape.on 'mousedown', (e) =>
-              console.log @GetPosFromMouse e.target.attrs
               if e.evt.button == 2
                 e.evt.cancelBubble = true
-                console.log 'mousedown', e
                 contextMenu.Show @cMenu, @GetPosFromMouse e.target.attrs
 
             @mainContainer.add floorShape
 
-          # else if @map.tiles[i][j].name is 'mainTower'
-          #   @map.tiles[i][j] = new MainTower @mainContainer, @map.tiles[i][j]
-
       @mainContainer.draw()
 
     @socket.on 'newTower', (tower) =>
-      # tower.pos =
-      #   x: parseInt tower.pos.x
-      #   y: parseInt tower.pos.y
-
       toBuild = null
       switch tower.name
         when 'spawnTower' then toBuild = SpawnTower
         when 'mainTower' then toBuild = MainTower
 
       @map.tiles[tower.pos.x][tower.pos.y] = new toBuild @mainContainer, tower
+
+    @socket.on 'newUnit', (unit) =>
+      console.log 'newUnit', unit
+      @units[unit.id] = new Unit @mainContainer, @socket, unit
+
 
   GetTileColor: (tile) ->
     if tile is null

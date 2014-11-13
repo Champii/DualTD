@@ -2,7 +2,10 @@ bus = require '../bus'
 
 Modulator = require '../../Modulator/lib/Modulator'
 Bank = require '../game/Bank'
+
 prices = require '../game/prices'
+
+SocketResource = require './SocketResource'
 
 config =
   account:
@@ -17,9 +20,8 @@ config =
       done()
   restrict: 'user'
 
-sockets = []
 banks = []
-class PlayerResource extends Modulator.Resource 'player', Modulator.Route.DefaultRoute, config
+class PlayerResource extends SocketResource.Extend 'player', Modulator.Route.DefaultRoute, config
 
   Save: (done) ->
     isNew = not @id?
@@ -27,8 +29,6 @@ class PlayerResource extends Modulator.Resource 'player', Modulator.Route.Defaul
     super (err, instance) =>
       return done err if err?
 
-      if @socket? and not sockets[@id]?
-        sockets[@id] = @socket
       if @bank? and not banks[@id]?
         banks[@id] = @bank
 
@@ -43,8 +43,6 @@ class PlayerResource extends Modulator.Resource 'player', Modulator.Route.Defaul
     @bank.Buy prices[tower.name], done
 
   @Deserialize: (blob, done) ->
-    if blob.id? and sockets[blob.id]?
-      blob.socket = sockets[blob.id]
     if blob.id? and banks[blob.id]?
       blob.bank = banks[blob.id]
 

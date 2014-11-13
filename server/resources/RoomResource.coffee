@@ -13,11 +13,12 @@ class RoomRoute extends Modulator.Route.DefaultRoute
     super()
 
     @Add 'post', '/:id/start', (req, res) ->
-      req.room._ready = 0 if not req.room._ready?
-      req.room._ready++
+      req.room.ready = 0 if not req.room.ready?
+      req.room.ready++
       req.room.Save ->
         console.log 'room start'
-        if req.room._ready == 2
+        if req.room.ready == 2
+          console.log 'Bus start !', req.room
           bus.emit 'startGame', req.room
 
         res.status(200).end()

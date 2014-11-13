@@ -4,8 +4,6 @@ class ATower
     @name = @tower.name
     @life = @tower.life
 
-    console.log __user
-
     @tower.color = 'black' if __user.id isnt @tower.userId
 
     towerShape = new Kinetic.Rect

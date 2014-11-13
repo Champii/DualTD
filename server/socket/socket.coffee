@@ -62,6 +62,7 @@ exports.init = (server) ->
 
   ### Game specific ###
   bus.on 'startGame', (room) ->
+    console.log 'startGame'
     emitRoom room.id, 'startGame'
     room.players[0].socket = sockets[room.players[0].id - 1]
     room.players[1].socket = sockets[room.players[1].id - 1]
