@@ -18,13 +18,13 @@ class TowerRoute extends Modulator.Route.DefaultRoute
       async.auto
         player:                 (done)          -> PlayerResource.Fetch req.body.userId, done
         tryBuy:     ['player',  (done, results) -> results.player.TryBuy req.body, done]
-        tower:      ['tryBuy',  (done, results) -> TowerResource.Deserialize req.body, done]
-        towerSaved: ['tower',   (done, results) -> results.tower.Save done]
+        # tower:      ['tryBuy',  (done, results) => @resource.Deserialize req.body, done]
+        # towerSaved: ['tower',   (done, results) -> results.tower.Save done]
       , (err, results) ->
         return res.status(500).send err if err?
 
-        bus.emit 'newTower', results.towerSaved
-        res.status(200).send results.towerSaved
+        bus.emit 'newTower', req.body
+        res.status(200).send req.body
 
 class TowerResource extends Modulator.Resource 'tower', {abstract: true}
   Save: (done) ->
