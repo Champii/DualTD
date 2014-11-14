@@ -12,14 +12,14 @@ class SpawnTowerResource extends TowerResource.Extend 'spawnTower', TowerResourc
     @Start()
 
   Start: ->
-    @_spawnTimer = setInterval =>
-      console.log 'Unit spawn'
-      UnitResource.Spawn
-        pos: @pos
-        userId: @userId
-        mainTargetPos: @mainTargetPos
-        towerPos: @pos
-    , 10000
+    # @_spawnTimer = setInterval =>
+    #   console.log 'Unit spawn'
+    #   UnitResource.Spawn
+    #     pos: @pos
+    #     userId: @userId
+    #     mainTargetPos: @mainTargetPos
+    #     towerPos: @pos
+    # , 20000
 
     #TEST
     UnitResource.Spawn

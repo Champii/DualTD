@@ -1,4 +1,4 @@
 module.exports =
   spawnTower:
-    price: 75
+    price: 50
     income: 2

@@ -3,6 +3,7 @@ class ContextMenu
   constructor: ->
 
   Show: (menu, pos) ->
+    console.log pos
     $.contextMenu( 'destroy' )
 
     cMenu =

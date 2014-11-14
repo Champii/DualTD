@@ -23,10 +23,12 @@ class UnitResource extends Modulator.Resource 'unit'
 
 
   _NextPos: ->
-    console.log @mainTargetPos, @pos, @a, Math.abs @a
+    xSign = if @mainTargetPos.x < @towerPos.x then -1 else 1
+    ySign = if @mainTargetPos.y < @towerPos.y then -1 else 1
+
     pos =
-      x: @pos.x + @speed
-      y: @pos.y + (@a * @speed)
+      x: @pos.x + (@speed * xSign)
+      y: @pos.y + (Math.abs(@a) * @speed * ySign)
 
   _FindTarget: ->
 
@@ -36,12 +38,10 @@ class UnitResource extends Modulator.Resource 'unit'
     @a = (@mainTargetPos.y - @towerPos.y) / (@mainTargetPos.x - @towerPos.x)
     @_moveTimer = setInterval =>
       @pos = @_NextPos()
-        # x: @pos.x + @speed
-        # y: @pos.y + @speed
       @Save =>
-        console.log 'posChange', @pos
+        # console.log 'posChange', @pos
 
-    , 1000
+    , 500
 
   @Spawn: (blob) ->
     console.log blob
