@@ -1,5 +1,4 @@
 async = require 'async'
-util = require 'util'
 
 bus = require '../bus'
 

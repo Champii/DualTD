@@ -8,7 +8,8 @@ RoomResource = require '../resources/RoomResource'
 
 sockets = []
 exports.init = (server) ->
-  io = socket.listen server, log: false
+  io = socket.listen server, log: true
+  # io = socket.listen server, log: false
 
   io.sockets.on 'connection', (socket) ->
     console.log 'new connection'
